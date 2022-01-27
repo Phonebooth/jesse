@@ -1329,10 +1329,11 @@ remove_last_from_path(State) ->
 
 %% @private
 valid_datetime(DateTimeBin) ->
-  case rfc3339:parse(DateTimeBin) of
-    {ok, _} ->
-      true;
+  try iso8601:parse_exact_to_now(DateTimeBin) of
     _ ->
+      true
+  catch 
+    _:_  ->
       false
   end.
 
